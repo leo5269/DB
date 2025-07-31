@@ -26,7 +26,7 @@ def find_Taiwan50():
     driver = webdriver.Edge(options=options)
     driver.get("https://www.cmoney.tw/etf/tw/0050/fundholding")
         
-    # TODO : 練習2
+    # TODO : 練習
                
     driver.close()
 
@@ -34,7 +34,7 @@ def find_Taiwan50():
 def find_stock(url, start, end):
     try:
         conn = pymssql.connect(**db_settings)
-        # TODO : 練習2
+        # TODO : 練習
     except Exception as e:
        print(e)
 
