@@ -50,11 +50,23 @@ def find_stock(url, start, end):
     try:
         conn = pymssql.connect(**db_settings)
         with conn.cursor() as cursor:
-            command = "INSERT INTO [dbo].[股票資訊資料表名稱] (stock_code, name, type, category, isTaiwan50) VALUES (%s, %s, %s, %s, %d)"
+            command = "INSERT INTO [dbo].[你的股票資訊資料表名稱] (stock_code, name, type, category, isTaiwan50) VALUES (%s, %s, %s, %s, %d)"
             response = requests.get(url)
             soup = BeautifulSoup(response.text, "html.parser")
 
-            # TODO : 練習(這邊有多行程式碼)
+            result = soup.select("table td b")
+            for tr in result: # 在所有的粗體標籤中找到我們需要的
+                if(tr.text.strip() == start):
+                    start_td = tr.find_parent("tr")
+                elif(tr.text.strip() == end):
+                    end_td = tr.find_parent("tr")
+
+            list_td = start_td.find_next("tr") # 找出下一個tr標籤
+            while(list_td != end_td):
+                child_list = list_td.find_all('td') # 列出tr標籤中的所有td標籤
+                stock_id, stock_name = child_list[0].text.split("　")
+                cursor.execute(command, (stock_id, stock_name, child_list[3].text, child_list[4].text, (stock_id in taiwan50)))
+                list_td = list_td.find_next("tr")
             conn.commit()
     except Exception as e:
        print(e)
