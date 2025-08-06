@@ -4,9 +4,15 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.edge.service import Service
+from selenium.webdriver.edge.options import Options
 
 # 選擇使用Edge瀏覽器開啟
-driver = webdriver.Edge()
+options = Options()
+options.add_argument("start-maximized")
+
+service = Service(executable_path="msedgedriver.exe")
+driver = webdriver.Edge(service=service, options=options)
 driver.get("https://www.google.com/")
 
 try:
