@@ -9,6 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.edge.service import Service
 
 
 # 🟢 設定要爬取的年份
@@ -32,7 +33,10 @@ def crawler():
     options = Options()
     options.add_argument("--headless")  # 不顯示瀏覽器
     options.add_argument("--disable-notifications")  # 禁止通知
-    driver = webdriver.Edge(options=options)
+    options.add_argument("start-maximized")
+    
+    service = Service(executable_path="msedgedriver.exe")
+    driver = webdriver.Edge(service=service, options=options)
 
     # 進入台灣證券交易所開休市日頁面
     url = "https://www.twse.com.tw/zh/trading/holiday.html"
