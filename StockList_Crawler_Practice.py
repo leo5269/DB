@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.edge.service import Service
 
 
 db_settings = {
@@ -23,7 +24,10 @@ def find_Taiwan50():
     options = Options()
     options.add_argument("--headless")  # 執行時不顯示瀏覽器
     options.add_argument("--disable-notifications")  # 禁止瀏覽器的彈跳通知
-    driver = webdriver.Edge(options=options)
+    options.add_argument("start-maximized")
+    
+    service = Service(executable_path="msedgedriver.exe")
+    driver = webdriver.Edge(service=service, options=options)
     driver.get("https://www.cmoney.tw/etf/tw/0050/fundholding")
         
     try:
